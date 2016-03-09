@@ -3,6 +3,8 @@ import sys
 
 from docopt import docopt
 
+from troll_bot.start import start_bot_service
+
 
 log = logging.getLogger(__name__)
 console_handler = logging.StreamHandler(sys.stderr)
@@ -20,6 +22,7 @@ def main():
     setup_logging()
     arguments = docopt(main.__doc__)
     setup_console_handler(console_handler, arguments.get('--verbose'))
+    start_bot_service()
 
 
 def setup_logging():
