@@ -1,4 +1,5 @@
 import os
+import logging
 
 from pymongo import MongoClient
 from flask import g
