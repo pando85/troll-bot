@@ -17,3 +17,9 @@ def connect_db():
 def close_connection(response):
     g.db_client.close()
     return response
+
+
+def save_message(message, db):
+    message_json = message.to_dict()
+    logging.info('Save message: %s', message_json)
+    db.messages.insert_one(message_json)
