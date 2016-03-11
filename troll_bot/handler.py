@@ -1,4 +1,3 @@
-import os
 import logging
 import random
 import re
@@ -18,17 +17,17 @@ def webhook_handler():
         db = g.db_client['troll-bot']
         save_message(update.message, db)
 
-        if make_anwser():
+        if should_reply():
             forward_random_message(db.messages, update.message)
 
     return 'ok'
 
 
-def make_anwser():
-    percentaje = 5
+def should_reply():
+    percentage = 5
     case = random.randint(1, 100)
     
-    if case <= percentaje:
+    if case <= percentage:
         return True
 
     return False
