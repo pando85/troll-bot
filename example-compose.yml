@@ -25,4 +25,5 @@ data:
   image: mongo:3.2.4
   volumes:
     - /data/db
-  command: --break-mongo
+  command: "true"
+  
