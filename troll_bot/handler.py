@@ -8,17 +8,20 @@ import telegram
 from troll_bot import WEBHOOK_URI, bot
 from troll_bot.database import app, save_message
 
+log = logging.getLogger(__name__)
 
 @app.route(WEBHOOK_URI, methods=['POST'])
 def webhook_handler():
     if request.method == "POST":
-        update = telegram.Update.de_json(request.get_json(force=True))
-        
         db = g.db_client['troll-bot']
-        save_message(update.message, db)
+        
+        received = telegram.Update.de_json(request.get_json(force=True))
+        save_message(received.message, db)
 
         if should_reply():
-            forward_random_message(db.messages, update.message)
+            reply_message = get_reply_message(received.message, db.messages)
+            bot.forwardMessage(chat_id=received.message.chat.id, 
+                from_chat_id=reply_message['chat']['id'], message_id=reply_message['message_id'])
 
     return 'ok'
 
@@ -28,28 +31,32 @@ def should_reply():
     case = random.randint(1, 100)
     
     if case <= percentage:
+        log.info('Replying message')
         return True
 
     return False
 
 
-def forward_random_message(db_messages, message_received):
-    chat_id = message_received.chat.id
-    text = message_received.text
-
-    if not text:
+def get_reply_message(message_received, db_messages):
+    if not message_received.text:
+        log.info('No text in message received.')
         return
 
-    words = text.split()
+    message_words = message_received.text.split()
+    log.debug('Message words: %s', message_words)
 
-    random_word = random_item(words)
+    random_word = random_item(message_words)
 
     contain_word = re.compile(r'\b{word}\b'.format(word=random_word))
-    posible_messages = list(db_messages.find({'text': contain_word}))
-    forward_message = random_item(posible_messages)
+    possible_messages = list(db_messages.find({'text': contain_word}))[:-1]
 
-    bot.forwardMessage(chat_id=chat_id, from_chat_id=forward_message['chat']['id'],
-        message_id=forward_message['message_id'])
+    if len(possible_messages) == 0:
+        log.info('No possible messages to reply.')
+        return
+
+    reply_message = random_item(possible_messages)
+
+    return reply_message
 
 
 def random_item(list_):

@@ -1,3 +1,4 @@
+import logging
 import os
 
 import telegram
@@ -10,6 +11,9 @@ from troll_bot import bot, WEBHOOK_URI
 from troll_bot.handler import app
 
 
+log = logging.getLogger(__name__)
+
+
 def start_bot_service():
     set_webhook(bot)
     start_tornado(app)
@@ -18,6 +22,7 @@ def start_bot_service():
 def set_webhook(bot):
     base_url = os.environ['BOT_URL']
     webhook_url = base_url + WEBHOOK_URI
+    log.info('Setting URL: %s', webhook_url)
 
     certificate_path = os.environ['CERTIFICATE_PATH']
     
