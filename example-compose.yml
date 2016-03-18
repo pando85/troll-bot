@@ -5,10 +5,12 @@ service:
     - mongo
   ports:
      - "5000:5000"
+  volumes:
+    - ./cert.pem:/tmp/cert.pem:ro
   environment:
-    - BOT_TOKEN= Telegram API token
-    - BOT_URL=https://telegram-bot.mooo.com
-    - CERTIFICATE_PATH=cert.pem
+    - BOT_TOKEN= Telegram Bot API token
+    - BOT_URL= Telegram Bot URL
+    - CERTIFICATE_PATH=/tmp/cert.pem
     - DB_HOST=mongo
     - DB_PORT=27017
 
