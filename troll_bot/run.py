@@ -1,5 +1,6 @@
 import logging
 import os
+import time
 
 from telegram import Updater
 
@@ -30,7 +31,7 @@ def run_bot_service():
     running = True
     while running:
         try:
-            pass
+            time.sleep(20000)
         except KeyboardInterrupt:
             running = False
     updater.stop()
