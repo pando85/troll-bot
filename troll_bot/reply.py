@@ -1,20 +1,18 @@
 import logging
 import os
-import re
 
-
-from troll_bot import bot
 from troll_bot.audio import get_text_to_speech_file
+from troll_bot.database import search_messages_by_word
 from troll_bot.utils import return_true_by_percentaje, random_item
 
 
 log = logging.getLogger(__name__)
 
 
-def reply_message(message, db):
+def reply_message(bot, message):
     if should_reply():
         log.info('Replying message')
-        reply_message = get_reply_message(message, db.messages)
+        reply_message = get_reply_message(message)
         if not reply_message:
             log.info('Not message to reply')
             return
@@ -36,7 +34,7 @@ def should_reply():
     return return_true_by_percentaje(5)
 
 
-def get_reply_message(message_received, db_messages):
+def get_reply_message(message_received):
     if not message_received.text:
         log.info('No text in message received.')
         return
@@ -45,9 +43,7 @@ def get_reply_message(message_received, db_messages):
     log.debug('Message words: %s', message_words)
 
     random_word = random_item(message_words)
-
-    contain_word = re.compile(r'\b{word}\b'.format(word=random_word), re.IGNORECASE)
-    possible_messages = list(db_messages.find({'text': contain_word}))[:-1]
+    possible_messages = search_messages_by_word(random_word)[:-1]
 
     if len(possible_messages) == 0:
         log.info('No possible messages to reply.')
