@@ -1,6 +1,6 @@
-service:
+troll-bot:
   restart: always
-  build: ./service
+  image: pando85/troll-bot
   links:
     - mongo
   ports:

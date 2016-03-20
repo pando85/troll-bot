@@ -19,9 +19,9 @@ Need to set privacy off using `/setprivacy` command in [@BotFather](https://tele
 
 Example using docker-compose:
 ```yml
-service:
+troll-bot:
   restart: always
-  build: ./service
+  image: pando85/troll-bot
   links:
     - mongo
   ports:
@@ -49,4 +49,5 @@ data:
   volumes:
     - /data/db
   command: "true"
+  
   ```
