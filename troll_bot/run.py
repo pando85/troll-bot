@@ -16,9 +16,7 @@ def run_bot_service():
     token = os.environ['BOT_TOKEN']
     updater = Updater(token, workers=10)
 
-    dp = updater.dispatcher
-
-    dp.addTelegramMessageHandler(update_handler)
+    updater.dispatcher.addTelegramMessageHandler(update_handler)
 
     if CERTIFICATE_PATH:
         webhook_path = generate_random_string(length=20)
