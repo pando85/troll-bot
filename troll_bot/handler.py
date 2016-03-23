@@ -4,6 +4,7 @@ from telegram.dispatcher import run_async
 
 from troll_bot.database import save_message
 from troll_bot.reply import reply_message
+from troll_bot.reply import send_recorded_audio
 
 
 log = logging.getLogger(__name__)
@@ -14,4 +15,5 @@ def update_handler(bot, received, **kwargs):
     log.debug('Received: %s', received)
 
     save_message(received.message)
-    reply_message(bot, received.message)
+    #reply_message(bot, received.message)
+    send_recorded_audio(bot, received.message)
