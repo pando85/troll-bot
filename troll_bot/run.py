@@ -29,7 +29,7 @@ def run_bot_service():
     running = True
     while running:
         try:
-            time.sleep(20000)
+            time.sleep(1000)
         except KeyboardInterrupt:
             running = False
     updater.stop()

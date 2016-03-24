@@ -10,12 +10,10 @@ def generate_random_string(length):
     return random_string.decode('utf-8')
 
 
-def return_true_by_percentaje(percentage):
+def return_true_by_percentage(percentage):
     case = random.randint(1, 100)
     
-    if case <= percentage:
-        return True
-    return False
+    return case <= percentage
 
 
 def random_item(list_):
@@ -24,3 +22,5 @@ def random_item(list_):
     logging.debug('Item chosen: %s', list_[id_])
 
     return list_[id_]
+
+

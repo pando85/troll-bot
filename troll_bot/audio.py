@@ -1,12 +1,14 @@
 import os
 import subprocess
+import tempfile
 
 from troll_bot.espeak import ESpeak
 from troll_bot.utils import generate_random_string
 
 
 def get_text_to_speech_file(text):
-    tmp_file_path = '/tmp/{path}.wav'.format( path = generate_random_string(20))
+    tmp_file_path = os.path.join(
+        tempfile.gettempdir(), generate_random_string(20) + ".wav")
     espeak = ESpeak(voice='es+m2')
 
     espeak.save(text, tmp_file_path)
