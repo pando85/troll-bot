@@ -3,7 +3,7 @@ import os
 
 from telegram.dispatcher import run_async
 
-from troll_bot.database import save_message
+from troll_bot.database import save_message, save_audio_message
 from troll_bot.reply import reply_message, reply_text_to_speech, reply_audio_file
 from troll_bot.utils import return_true_by_percentage
 
@@ -16,6 +16,7 @@ def update_handler(bot, received, **kwargs):
     log.debug('Received: %s', received)
 
     save_message(received.message)
+    save_audio_message(bot, received.message)
 
     if not should_reply():
         return
@@ -31,7 +32,6 @@ def update_handler(bot, received, **kwargs):
 
 
 def should_reply():
-    return True
     return return_true_by_percentage(5)
 
 
