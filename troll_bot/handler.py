@@ -3,8 +3,8 @@ import logging
 from telegram.dispatcher import run_async
 
 from troll_bot.database import save_message
-from troll_bot.reply import get_random_word, get_reply_message, should_reply, get_reply_type
-
+from troll_bot.reply import (get_random_word, get_reply_message, should_reply, get_reply_type,
+                             reply_text_message, reply_audio_message, reply_gif_message)
 log = logging.getLogger(__name__)
 
 

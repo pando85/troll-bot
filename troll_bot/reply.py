@@ -1,5 +1,4 @@
 import logging
-import os
 import random
 
 
@@ -52,7 +51,7 @@ def reply_text_message(bot, reply_message, chat_id):
         from_chat_id=reply_message['chat']['id'], message_id=reply_message['message_id'])
 
 def reply_audio_message(bot, chat_id, reply_message):
-    send_audio(bot, chat_id, reply_message)
+    send_audio(bot, chat_id, reply_message['text'])
 
 def reply_gif_message(bot, chat_id, reply_word):
     send_gif(bot, chat_id, reply_word)
