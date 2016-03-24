@@ -2,3 +2,5 @@ docopt==0.6.2
 future==0.15.2
 pymongo==3.2.2
 python-telegram-bot==3.3
+SpeechRecognition==3.3.3
+speedtest-cli==0.3.4

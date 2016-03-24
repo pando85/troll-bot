@@ -5,8 +5,8 @@ import re
 from pymongo import MongoClient
 
 
-HOST = os.environ['DB_HOST']
-PORT = int(os.environ['DB_PORT'])
+HOST = os.environ.get('DB_HOST', "127.0.0.1")
+PORT = int(os.environ.get('DB_PORT', "27017"))
 
 client = MongoClient(HOST, PORT)
 db = client['troll-bot']

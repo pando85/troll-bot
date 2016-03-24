@@ -13,7 +13,7 @@ log = logging.getLogger(__name__)
 
 
 def run_bot_service():
-    token = os.environ['BOT_TOKEN']
+    token = os.environ.get('BOT_TOKEN')
     updater = Updater(token, workers=10)
 
     updater.dispatcher.addTelegramMessageHandler(update_handler)
@@ -29,7 +29,7 @@ def run_bot_service():
     running = True
     while running:
         try:
-            time.sleep(1000)
+            time.sleep(20000)
         except KeyboardInterrupt:
             running = False
     updater.stop()

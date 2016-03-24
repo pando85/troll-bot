@@ -14,7 +14,7 @@ def reply_audio_file(bot, message):
     if audio_dir == "" or audio_dir is None or not is_text_message(message):
         return
 
-    random_word = get_random_message_word(message).lower()
+    random_word = remove_accents(get_random_message_word(message).lower())
     audiofiles = [file for file
                   in os.listdir(audio_dir)
                   if is_audio_file(file) and keyword_in_filename(file, random_word)]
@@ -87,7 +87,7 @@ def get_reply_message(message_received):
     return reply_message
 
 def is_text_message(message):
-    return message.text is not None
+    return message.text is not None and message.text != ""
 
 
 def get_random_message_word(message):
@@ -95,5 +95,9 @@ def get_random_message_word(message):
     log.debug('Message words: %s', message_words)
 
     return random_item(message_words)
+
+
+def remove_accents(message):
+    return message.translate(str.maketrans('áéíóú', 'aeiou'))
 
 

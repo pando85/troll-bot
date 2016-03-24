@@ -44,4 +44,4 @@ def should_reply_text_to_speech():
 
 
 def should_reply_audio():
-    return return_true_by_percentage(25)
+    return return_true_by_percentage(10)
