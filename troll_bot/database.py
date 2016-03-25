@@ -30,7 +30,8 @@ def save_audio_message(bot, message):
 
 
 def get_voice_file_name(message):
-    file_name = message.forward_date.strftime("%Y%m%d%H%M%S") + ".ogg"
+    date = message.forward_date if message.forward_date is not None else message.date
+    file_name = date.strftime("audio_%Y%m%d_%H%M%S") + ".ogg"
     return os.path.join(STORE_AUDIO_DIR, file_name)
 
 
