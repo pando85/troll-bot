@@ -5,6 +5,15 @@ from troll_bot.espeak import ESpeak
 from troll_bot.utils import generate_random_string
 
 
+def send_audio(bot, chat_id, text):
+    audio_file_path = get_text_to_speech_file(text)
+    try:
+        bot.sendVoice(chat_id=chat_id, voice=open(audio_file_path, 'rb'))
+    except:
+        raise
+    finally:
+        os.remove(audio_file_path)
+
 def get_text_to_speech_file(text):
     tmp_file_path = '/tmp/{path}.wav'.format( path = generate_random_string(20))
     espeak = ESpeak(voice='es+m2')
