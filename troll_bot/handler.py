@@ -1,6 +1,7 @@
 import logging
 
-from telegram.dispatcher import run_async
+from telegram.ext.dispatcher import run_async
+from telegram.ext import MessageHandler, Filters
 
 from troll_bot.database import save_message
 from troll_bot.reply import (get_random_word, get_reply_message, should_reply, get_reply_type,
@@ -8,8 +9,11 @@ from troll_bot.reply import (get_random_word, get_reply_message, should_reply, g
 log = logging.getLogger(__name__)
 
 
+def get_update_handler():
+    return MessageHandler(Filters.text, reply_text)
+
 @run_async
-def update_handler(bot, received, **kwargs):
+def reply_text(bot, received, **kwargs):
     log.debug('Received: %s', received)
 
     save_message(received.message)
@@ -25,6 +29,7 @@ def update_handler(bot, received, **kwargs):
     reply_message = get_reply_message(random_word)
     if not reply_message:
         log.info('Not reply message')
+        return
 
     reply_type = get_reply_type()
 

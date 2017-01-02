@@ -2,10 +2,10 @@ import logging
 import os
 import time
 
-from telegram import Updater
+from telegram.ext import Updater
 
 from troll_bot import CERTIFICATE_PATH, BOT_URL
-from troll_bot.handler import update_handler
+from troll_bot.handler import get_update_handler
 from troll_bot.utils import generate_random_string
 
 
@@ -16,7 +16,7 @@ def run_bot_service():
     token = os.environ['BOT_TOKEN']
     updater = Updater(token, workers=10)
 
-    updater.dispatcher.addTelegramMessageHandler(update_handler)
+    updater.dispatcher.add_handler(get_update_handler())
 
     if CERTIFICATE_PATH:
         webhook_path = generate_random_string(length=20)

@@ -35,4 +35,4 @@ def setup_console_handler(handler, verbose):
     if verbose:
         handler.setLevel(logging.DEBUG)
     else:
-        handler.setLevel(logging.INFO)        
+        handler.setLevel(logging.INFO)
