@@ -4,7 +4,7 @@ import random
 
 from troll_bot.audio import send_audio
 from troll_bot.gif import send_gif
-from troll_bot.database import search_messages_by_word
+from troll_bot.database import search_messages_by_word_in_chat_id
 from troll_bot.utils import return_true_by_percentaje, random_item
 
 
@@ -23,9 +23,9 @@ def get_random_word(message_received):
     return random_word
 
 
-def get_reply_message(random_word):
+def get_reply_message(random_word, chat_id):
 
-    possible_messages = search_messages_by_word(random_word)[:-1]
+    possible_messages = search_messages_by_word_in_chat_id(random_word, chat_id)[:-1]
 
     if len(possible_messages) == 0:
         log.debug('No possible messages to reply.')

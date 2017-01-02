@@ -26,7 +26,7 @@ def reply_text(bot, received, **kwargs):
         return
 
     random_word = get_random_word(received.message)
-    reply_message = get_reply_message(random_word)
+    reply_message = get_reply_message(random_word, received.message.chat.id)
     if not reply_message:
         log.info('Not reply message')
         return
