@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def should_reply():
-    return return_true_by_percentaje(100)
+    return return_true_by_percentaje(5)
 
 def get_random_word(message_received):
     message_words = message_received.text.split()
