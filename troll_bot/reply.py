@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 def should_reply():
     return return_true_by_percentaje(5)
 
-def get_random_word(message_received):
+def get_random_message_word(message_received):
     message_words = message_received.text.split()
     log.debug('Message words: %s', message_words)
 

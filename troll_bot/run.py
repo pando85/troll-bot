@@ -5,7 +5,7 @@ import time
 from telegram.ext import Updater
 
 from troll_bot import CERTIFICATE_PATH, BOT_URL
-from troll_bot.handler import get_update_handler
+from troll_bot.handler import get_update_handler, get_forward_handler, get_help_handler
 from troll_bot.utils import generate_random_string
 
 
@@ -17,6 +17,8 @@ def run_bot_service():
     updater = Updater(token, workers=10)
 
     updater.dispatcher.add_handler(get_update_handler())
+    updater.dispatcher.add_handler(get_forward_handler())
+    updater.dispatcher.add_handler(get_help_handler())
 
     if CERTIFICATE_PATH:
         webhook_path = generate_random_string(length=20)
@@ -40,5 +42,5 @@ def set_webhook(updater, webhook_uri):
     log.info('Setting URL: %s', webhook_url)
 
     certificate_path = CERTIFICATE_PATH
-    
+
     updater.bot.setWebhook(webhook_url, open(certificate_path, 'rb'))
