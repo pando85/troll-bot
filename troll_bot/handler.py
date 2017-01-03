@@ -52,6 +52,10 @@ def reply_text(bot, received, **kwargs):
 
 @run_async
 def forward_message(bot, update, args):
+    if not args:
+        log.info('No args passed')
+        return
+
     random_word = random_item(args)
     reply_message = get_reply_message(random_word, update.message.chat.id)
     if not reply_message:
