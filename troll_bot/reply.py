@@ -1,10 +1,10 @@
 import logging
 import random
-
+import datetime
 
 from troll_bot.audio import send_audio
 from troll_bot.gif import send_gif
-from troll_bot.database import search_messages_by_word_in_chat_id
+from troll_bot.database import search_messages
 from troll_bot.utils import return_true_by_percentaje, random_item
 
 
@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def should_reply():
-    return return_true_by_percentaje(5)
+    return return_true_by_percentaje(100)
 
 def get_random_message_word(message_received):
     message_words = message_received.text.split()
@@ -23,9 +23,16 @@ def get_random_message_word(message_received):
     return random_word
 
 
-def get_reply_message(random_word, chat_id):
+def get_reply_message(words_list, chat_id):
+    possible_messages = search_messages(words_list, chat_id)
 
-    possible_messages = search_messages_by_word_in_chat_id(random_word, chat_id)[:-1]
+    last_message_datetime = datetime.datetime.fromtimestamp(possible_messages[-1]['date'])
+    last_message_ago = datetime.datetime.now() - last_message_datetime
+
+    logging.debug('seconds from last message: %s', last_message_ago.seconds)
+    if last_message_ago.seconds < 2:
+        logging.debug('Removing last message from reply, too young')
+        possible_messages = possible_messages[:-1]
 
     if len(possible_messages) == 0:
         log.debug('No possible messages to reply.')

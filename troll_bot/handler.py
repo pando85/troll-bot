@@ -56,8 +56,7 @@ def forward_message(bot, update, args):
         log.info('No args passed')
         return
 
-    random_word = random_item(args)
-    reply_message = get_reply_message(random_word, update.message.chat.id)
+    reply_message = get_reply_message(args, update.message.chat.id)
     if not reply_message:
         log.info('Not reply message')
         return
@@ -67,6 +66,6 @@ def forward_message(bot, update, args):
 @run_async
 def print_help(bot, update):
     update.message.reply_text('''
-        /fwd <text> : return some random message with some <text> word
+        /fwd <text> : return some random message with words in <text>
         '''
         )

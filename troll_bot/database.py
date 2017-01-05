@@ -1,6 +1,5 @@
 import os
 import logging
-import re
 
 from pymongo import MongoClient
 
@@ -17,22 +16,33 @@ def save_message(message):
     logging.info('Save message: %s', message_json)
     db.messages.insert_one(message_json)
 
-def search_messages_by_word_in_chat_id(query, chat_id):
-    contain_word = get_contain_word_regex(query)
-    logging.debug("chat_id: %s", chat_id)
-    message_list = list(db.messages.find({'text': contain_word, 'chat.id': chat_id} ))
+def search_messages(words, chat_id=None):
+    if type(words) is not list:
+        logging.debug('words is not list, transforming to list')
+        words = [words]
+
+    logging.debug('words: %s', words)
+    contain_words = get_contain_words_regex(words)
+
+    search_dict = {}
+    search_dict['text'] = contain_words
+
+    if chat_id:
+        logging.debug("chat_id: %s", chat_id)
+        search_dict['chat.id'] = chat_id
+
+    logging.debug('Search dict: %s', search_dict)
+    message_list = list(db.messages.find( search_dict ))
     logging.debug("Message list: %s", message_list)
 
     return message_list
 
-def search_messages_by_word(query):
-    contain_word = get_contain_word_regex(query)
-    message_list = list(db.messages.find({'text': contain_word}))
+def get_contain_words_regex(words):
+    regex = r'^' + ''.join([ r'(?=.*\b' + word + r'\b)' for word in words]) + r'.*$'
 
-    return message_list
+    logging.debug('Regex : %s', regex)
 
-def get_contain_word_regex(word):
-    contain_word = re.compile(r'\b{word}\b'.format(word=word), re.IGNORECASE)
-    logging.debug("Regex: %s", contain_word)
+    contain_words = {'$regex': regex, '$options' : 'i'}
+    logging.debug("Regex: %s", contain_words)
 
-    return contain_word
+    return contain_words
