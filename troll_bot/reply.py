@@ -12,7 +12,7 @@ log = logging.getLogger(__name__)
 
 
 def should_reply():
-    return return_true_by_percentaje(100)
+    return return_true_by_percentaje(5)
 
 def get_random_message_word(message_received):
     message_words = message_received.text.split()
@@ -26,13 +26,7 @@ def get_random_message_word(message_received):
 def get_reply_message(words_list, chat_id):
     possible_messages = search_messages(words_list, chat_id)
 
-    last_message_datetime = datetime.datetime.fromtimestamp(possible_messages[-1]['date'])
-    last_message_ago = datetime.datetime.now() - last_message_datetime
-
-    logging.debug('seconds from last message: %s', last_message_ago.seconds)
-    if last_message_ago.seconds < 2:
-        logging.debug('Removing last message from reply, too young')
-        possible_messages = possible_messages[:-1]
+    possible_messages = remove_last_if_young(possible_messages)
 
     if len(possible_messages) == 0:
         log.debug('No possible messages to reply.')
@@ -42,6 +36,18 @@ def get_reply_message(words_list, chat_id):
     log.debug('Reply message: %s', reply_message)
 
     return reply_message
+
+def remove_last_if_young(messages):
+    last_message_datetime = datetime.datetime.fromtimestamp(messages[-1]['date'])
+    last_message_ago = datetime.datetime.now() - last_message_datetime
+
+    logging.debug('seconds from last message: %s', last_message_ago.seconds)
+    if last_message_ago.seconds < 2:
+        logging.debug('Removing last message from reply, too young')
+        return messages[:-1]
+
+    return messages
+
 
 def get_reply_type():
     case = random.randint(1, 100)
