@@ -3,6 +3,7 @@ import logging
 
 from pymongo import MongoClient
 
+from troll_bot.utils import remove_word
 
 HOST = os.environ['DB_HOST']
 PORT = int(os.environ['DB_PORT'])
@@ -34,6 +35,14 @@ def search_messages(words, chat_id=None):
     logging.debug('Search dict: %s', search_dict)
     message_list = list(db.messages.find( search_dict ))
     logging.debug("Message list: %s", message_list)
+
+    if len(message_list) == 0:
+        logging.debug('Message list is empty')
+
+        if len(words) >= 1:
+            new_words = remove_word(words)
+            logging.debug('Searching again with: %s', new_words)
+            message_list = search_messages(new_words, chat_id)
 
     return message_list
 

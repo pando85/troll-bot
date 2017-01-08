@@ -28,7 +28,7 @@ def get_reply_message(words_list, chat_id):
 
     possible_messages = remove_last_if_young(possible_messages)
 
-    if len(possible_messages) == 0:
+    if not possible_messages:
         log.debug('No possible messages to reply.')
         return
 
@@ -38,6 +38,9 @@ def get_reply_message(words_list, chat_id):
     return reply_message
 
 def remove_last_if_young(messages):
+    if not messages:
+        return
+
     last_message_datetime = datetime.datetime.fromtimestamp(messages[-1]['date'])
     last_message_ago = datetime.datetime.now() - last_message_datetime
 
