@@ -10,8 +10,7 @@ You will need to add this enviroment variables:
 * BOT_TOKEN: token from [@BotFather](https://telegram.me/BotFather)
 * BOT_URL(Optional): url where you setup webhook
 * CERTIFICATE_PATH(Optional): self signed certificated to [set webhook](https://core.telegram.org/bots/api#setwebhook).
-* DB_HOST: mongoDB host
-* DB_PORT: mongoDB port
+* MONGO_URI: mongoDB connection URI.
 
 If BOT_URL or CERTIFICATE_PATH are not set, Bot will run without webhook.
 

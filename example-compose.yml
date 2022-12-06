@@ -4,15 +4,14 @@ troll-bot:
   links:
     - mongo
   ports:
-     - "5000:5000"
+    - "5000:5000"
   volumes:
     - ./cert.pem:/tmp/cert.pem:ro
   environment:
     - BOT_TOKEN= Telegram Bot API token
     - BOT_URL= Telegram Bot URL
     - CERTIFICATE_PATH=/tmp/cert.pem
-    - DB_HOST=mongo
-    - DB_PORT=27017
+    - MONGO_URI=mongodb://mongo:27017
 
 mongo:
   restart: always
@@ -23,9 +22,8 @@ mongo:
     - "27017"
 
 data:
-  restart: always  
+  restart: always
   image: mongo:3.2.4
   volumes:
     - /data/db
   command: "true"
-  
