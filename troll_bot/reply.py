@@ -5,14 +5,15 @@ import datetime
 from troll_bot.audio import send_audio
 from troll_bot.gif import send_gif
 from troll_bot.database import search_messages
-from troll_bot.utils import return_true_by_percentaje, random_item
+from troll_bot.utils import return_true_by_percentage, random_item
 
 
 log = logging.getLogger(__name__)
 
 
 def should_reply():
-    return return_true_by_percentaje(5)
+    return return_true_by_percentage(5)
+
 
 def get_random_message_word(message_received):
     message_words = message_received.text.split()
@@ -36,6 +37,7 @@ def get_reply_message(words_list, chat_id):
     log.debug('Reply message: %s', reply_message)
 
     return reply_message
+
 
 def remove_last_if_young(messages):
     if not messages:
@@ -62,14 +64,19 @@ def get_reply_type():
     if case > 90:
         return 'audio'
 
+
 def reply_text_message(bot, chat_id, reply_message):
     log.debug('Reply message: %s', reply_message)
     log.debug('Chat_id: %s', chat_id)
-    bot.forwardMessage(chat_id=chat_id,
-        from_chat_id=reply_message['chat']['id'], message_id=reply_message['message_id'])
+    bot.forwardMessage(
+        chat_id=chat_id,
+        from_chat_id=reply_message['chat']['id'],
+        message_id=reply_message['message_id'])
+
 
 def reply_audio_message(bot, chat_id, reply_message):
     send_audio(bot, chat_id, reply_message['text'])
+
 
 def reply_gif_message(bot, chat_id, reply_word):
     send_gif(bot, chat_id, reply_word)

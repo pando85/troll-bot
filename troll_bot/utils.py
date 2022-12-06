@@ -10,7 +10,7 @@ def generate_random_string(length):
     return random_string.decode('utf-8')
 
 
-def return_true_by_percentaje(percentage):
+def return_true_by_percentage(percentage):
     case = random.randint(1, 100)
 
     if case <= percentage:
@@ -25,18 +25,12 @@ def random_item(list_):
 
     return list_[id_]
 
-def remove_word(words, _type='len'):
-    if _type == 'simple':
-        remove_word = words[-1]
 
-    if _type == 'len':
-        removed_word = get_shortest_word(words)
-
+def remove_word(words):
+    removed_word = get_shortest_word(words)
     logging.debug('Removing: %s', removed_word)
+    return [word for word in words if word is not removed_word]
 
-    words = [word for word in words if word is not removed_word]
-
-    return words
 
 def get_shortest_word(words):
     return min(words, key=len)

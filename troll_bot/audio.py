@@ -14,8 +14,9 @@ def send_audio(bot, chat_id, text):
     finally:
         os.remove(audio_file_path)
 
+
 def get_text_to_speech_file(text):
-    tmp_file_path = '/tmp/{path}.wav'.format( path = generate_random_string(20))
+    tmp_file_path = '/tmp/{path}.wav'.format(path=generate_random_string(20))
     espeak = ESpeak(voice='es+m2')
 
     espeak.save(text, tmp_file_path)
@@ -24,7 +25,7 @@ def get_text_to_speech_file(text):
 
 
 def transcode_to_ogg(file_path):
-    output_file_path = '{path}.ogg'.format( path = remove_extension(file_path))
+    output_file_path = '{path}.ogg'.format(path=remove_extension(file_path))
     oggenc_cmd = ['oggenc', '-q3', '-o', output_file_path, file_path]
     try:
         FNULL = open(os.devnull, 'w')

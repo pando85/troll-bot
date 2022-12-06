@@ -70,4 +70,6 @@ target/
 
 # dotenv
 .env
+.envrc
+.direnv
 /.idea/

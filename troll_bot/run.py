@@ -24,9 +24,9 @@ def run_bot_service():
         webhook_path = generate_random_string(length=20)
         webhook_uri = '/' + webhook_path
         set_webhook(updater, webhook_uri)
-        update_queue = updater.start_webhook('0.0.0.0', 5000, webhook_path)
+        updater.start_webhook('0.0.0.0', 5000, webhook_path)
     else:
-        update_queue = updater.start_polling(poll_interval=0.1, timeout=10)
+        updater.start_polling(poll_interval=0.1, timeout=10)
 
     running = True
     while running:
@@ -35,6 +35,7 @@ def run_bot_service():
         except KeyboardInterrupt:
             running = False
     updater.stop()
+
 
 def set_webhook(updater, webhook_uri):
     base_url = BOT_URL
