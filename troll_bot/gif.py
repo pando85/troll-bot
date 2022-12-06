@@ -16,6 +16,7 @@ def send_gif(bot, chat_id, text):
     finally:
         os.remove(gif_path)
 
+
 def get_gif_file_path(text):
     giphy = giphypop.Giphy()
     tmp_file_path = '/tmp/{random}.gif'.format(random=generate_random_string(20))

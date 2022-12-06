@@ -1,10 +1,14 @@
-FROM python:3.5
+FROM python:3.10
 
 ADD . /troll-bot
 WORKDIR /troll-bot
 RUN pip install -r requirements.txt
 
 # espeak and oggenc
-RUN apt-get update && apt-get install -y espeak vorbis-tools
+RUN apt-get update \
+    && apt-get install -y \
+        espeak \
+        vorbis-tools \
+    && rm -rf /var/lib/apt/lists/*
 
 CMD ["python", "-m", "troll_bot"]
