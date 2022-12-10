@@ -12,7 +12,7 @@ You will need to add this enviroment variables:
 * CERTIFICATE_PATH(Optional): self signed certificated to [set webhook](https://core.telegram.org/bots/api#setwebhook).
 * MONGO_URI: mongoDB connection URI.
 
-If BOT_URL or CERTIFICATE_PATH are not set, Bot will run without webhook.
+If BOT_URL is not set, Bot will run without webhook.
 
 Need to set privacy off using `/setprivacy` command in [@BotFather](https://telegram.me/BotFather)
 

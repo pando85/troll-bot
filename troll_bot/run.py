@@ -20,7 +20,7 @@ def run_bot_service():
     updater.dispatcher.add_handler(get_forward_handler())
     updater.dispatcher.add_handler(get_help_handler())
 
-    if CERTIFICATE_PATH:
+    if BOT_URL:
         webhook_path = generate_random_string(length=20)
         webhook_uri = '/' + webhook_path
         set_webhook(updater, webhook_uri)
@@ -42,6 +42,8 @@ def set_webhook(updater, webhook_uri):
     webhook_url = base_url + webhook_uri
     log.info('Setting URL: %s', webhook_url)
 
-    certificate_path = CERTIFICATE_PATH
+    if CERTIFICATE_PATH:
+        updater.bot.setWebhook(webhook_url, open(CERTIFICATE_PATH, 'rb'))
+    else:
+        updater.bot.setWebhook(webhook_url)
 
-    updater.bot.setWebhook(webhook_url, open(certificate_path, 'rb'))
