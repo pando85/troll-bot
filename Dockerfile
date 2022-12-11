@@ -11,4 +11,4 @@ RUN apt-get update \
         vorbis-tools \
     && rm -rf /var/lib/apt/lists/*
 
-CMD ["python", "-m", "troll_bot"]
+ENTRYPOINT ["python", "-m", "troll_bot"]
